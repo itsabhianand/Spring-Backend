@@ -28,10 +28,11 @@ public class OpenFigiGlobalExceptionHandler implements java.io.Serializable{
 		String reasonCode = ex.getMessage();
 		if(ex instanceof DataNotFoundException) {
 			errorResponse = errorValidator.build("Resource Not found", reasonCode, recoverable, ex.getMessage());
+			return new ResponseEntity<Object>(errorResponse, HttpStatus.NOT_FOUND);
 		}
-		else if(ex instanceof GatewayTimeOutException) {
+		else {
 			errorResponse = errorValidator.build("Gateway Timeout", reasonCode, recoverable, ex.getMessage());
+			return new ResponseEntity<Object>(errorResponse, HttpStatus.GATEWAY_TIMEOUT);
 		}
-		return new ResponseEntity<Object>(errorResponse, HttpStatus.NOT_FOUND);
 	}
 }
